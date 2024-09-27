@@ -1,5 +1,5 @@
 resource "aws_security_group" "worker_node_sg" {
-  name        = "eks-test"
+  name        = "workshop-eks-test"
   description = "Allow ssh inbound traffic"
   vpc_id      =  var.vpc_id
 

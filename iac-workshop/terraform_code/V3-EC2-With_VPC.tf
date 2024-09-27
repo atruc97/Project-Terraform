@@ -2,36 +2,25 @@ provider "aws" {
   region = "us-east-1"
 }
 
-resource "aws_instance" "demo-server" {
+resource "aws_instance" "workshop-demo-server" {
     ami = "ami-053b0d53c279acc90"
     instance_type = "t2.micro"
-    key_name = "dpp"
+    key_name = "workshop"
     //security_groups = [ "demo-sg" ]
-    vpc_security_group_ids = [aws_security_group.demo-sg.id]
-    subnet_id = aws_subnet.dpp-public-subnet-01.id 
-for_each = toset(["jenkins-master", "build-slave", "ansible"])
-   tags = {
-     Name = "${each.key}"
-   }
+    vpc_security_group_ids = [aws_security_group.workshop-demo-sg.id]
+    subnet_id = aws_subnet.workshop-public-subnet-01.id 
+
 }
 
-resource "aws_security_group" "demo-sg" {
-  name        = "demo-sg"
+resource "aws_security_group" "workshop-demo-sg" {
+  name        = "workshop-demo-sg"
   description = "SSH Access"
-  vpc_id = aws_vpc.dpp-vpc.id 
+  vpc_id = aws_vpc.workshop-vpc.id 
   
   ingress {
-    description      = "SHH access"
+    description      = "Shh access"
     from_port        = 22
     to_port          = 22
-    protocol         = "tcp"
-    cidr_blocks      = ["0.0.0.0/0"]
-    }
-
-    ingress {
-    description      = "Jenkins port"
-    from_port        = 8080
-    to_port          = 8080
     protocol         = "tcp"
     cidr_blocks      = ["0.0.0.0/0"]
     }

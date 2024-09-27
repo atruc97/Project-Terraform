@@ -2,8 +2,8 @@ provider "aws" {
   region = "us-east-1"
 }
 
-resource "aws_instance" "demo-server" {
+resource "aws_instance" "workshop-demo-server" {
     ami = "ami-022e1a32d3f742bd8"
     instance_type = "t2.micro"
-    key_name = "dpp"
+    key_name = "workshop"
 }

@@ -1,5 +1,5 @@
 resource "aws_iam_role" "master" {
-  name = "ed-eks-master"
+  name = "workshop-eks-master"
 
   assume_role_policy = <<POLICY
 {
@@ -118,12 +118,14 @@ resource "aws_iam_instance_profile" "worker" {
 
 ###############################################################################################################
 resource "aws_eks_cluster" "eks" {
-  name = "valaxy-eks-01"
+  name = "workshop-eks-01"
   role_arn = aws_iam_role.master.arn
 
   vpc_config {
     subnet_ids = [var.subnet_ids[0],var.subnet_ids[1]]
   }
+
+  # version = "1.21" /// version cluster eks
   
   depends_on = [
     aws_iam_role_policy_attachment.AmazonEKSClusterPolicy,
@@ -146,7 +148,7 @@ resource "aws_eks_node_group" "backend" {
   disk_size = "20"
   instance_types = ["t2.small"]
   remote_access {
-    ec2_ssh_key = "dpp"
+    ec2_ssh_key = "workshop"
     source_security_group_ids = [var.sg_ids]
   } 
   
